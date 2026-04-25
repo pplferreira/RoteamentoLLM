@@ -12,7 +12,7 @@ def pick_llm(config: AppConfig, level: ComplexityLevel) -> LLMEntry:
     """
     if not config.arsenal:
         raise ValueError(
-            "Arsenal vazio. Adicione pelo menos um LLM com `rllm add`."
+            "Acervo de modelos vazio. Adicione pelo menos um modelo de LLM com `rllm add`."
         )
 
     candidates = [llm for llm in config.arsenal if level in llm.complexity_levels]

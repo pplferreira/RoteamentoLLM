@@ -80,7 +80,7 @@ def chat(
     if not config.arsenal:
         console.print(
             Panel(
-                "[yellow]Arsenal vazio![/] Adicione modelos com [bold cyan]rllm add[/].",
+                "[yellow]Acervo de modelos vazio![/] Adicione modelos com [bold cyan]rllm add[/].",
                 title="Aviso",
                 border_style="yellow",
             )
@@ -90,7 +90,7 @@ def chat(
     if alias:
         llm = config.get_llm_by_alias(alias)
         if not llm:
-            console.print(f"[red]Alias '{alias}' não encontrado no arsenal.[/]")
+            console.print(f"[red]Alias '{alias}' não encontrado no acervo.[/]")
             raise typer.Exit(1)
         if show_routing:
             console.print(f"[dim]Forçando uso de [bold]{alias}[/] ({llm.provider}/{llm.model})[/]")
@@ -142,8 +142,8 @@ def chat(
 def add(
     alias: Annotated[Optional[str], typer.Argument(help="Alias para o modelo")] = None,
 ):
-    """Adiciona um LLM ao arsenal de forma interativa."""
-    console.print(Panel("[bold cyan]Adicionar LLM ao Arsenal[/]", border_style="cyan"))
+    """Adiciona um LLM ao acervo de forma interativa."""
+    console.print(Panel("[bold cyan]Adicionar LLM ao Acervo[/]", border_style="cyan"))
 
     if not alias:
         alias = Prompt.ask("[bold]Alias[/] (nome curto para este modelo)")
@@ -210,7 +210,7 @@ def add(
         console.print(f"[yellow]Aviso:[/] {e} — o modelo será salvo, mas certifique-se de definir a variável.")
 
     add_llm(entry)
-    console.print(f"\n[green]✓[/] LLM [bold]{alias}[/] adicionado ao arsenal com sucesso.")
+    console.print(f"\n[green]✓[/] LLM [bold]{alias}[/] adicionado ao acervo com sucesso.")
 
 
 # ---------------------------------------------------------------------------
@@ -223,9 +223,9 @@ def remove(
     alias: Annotated[str, typer.Argument(help="Alias do LLM a remover")],
     force: Annotated[bool, typer.Option("--force", "-f", help="Pular confirmação")] = False,
 ):
-    """Remove um LLM do arsenal."""
+    """Remove um LLM do acervo."""
     if not force:
-        ok = Confirm.ask(f"Remover [bold]{alias}[/] do arsenal?")
+        ok = Confirm.ask(f"Remover [bold]{alias}[/] do acervo?")
         if not ok:
             raise typer.Exit()
 
@@ -244,7 +244,7 @@ def remove(
 
 @app.command(name="list")
 def list_llms():
-    """Lista os LLMs configurados no arsenal."""
+    """Lista os LLMs configurados no acervo."""
     config = load_config()
 
     # Direcionador info
@@ -258,7 +258,7 @@ def list_llms():
     )
 
     if not config.arsenal:
-        console.print("[yellow]Arsenal vazio.[/] Use [bold cyan]rllm add[/] para adicionar modelos.")
+        console.print("[yellow]Acervo de modelos vazio.[/] Use [bold cyan]rllm add[/] para adicionar modelos.")
         return
 
     table = Table(show_header=True, header_style="bold magenta", expand=True)
@@ -364,7 +364,7 @@ def direcionador_test(
         selected = pick_llm(config, level)
         console.print(f"Rotearia para: [bold]{selected.alias}[/] ({selected.provider}/{selected.model})")
     else:
-        console.print("[yellow]Nenhum LLM configurado para este nível no arsenal.[/]")
+        console.print("[yellow]Nenhum LLM configurado para este nível no acervo.[/]")
 
 
 # ---------------------------------------------------------------------------
